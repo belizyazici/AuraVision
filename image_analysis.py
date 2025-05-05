@@ -1,18 +1,15 @@
 from deepface import DeepFace
+import tempfile
+import cv2
 
-def analyze_image(image_path):
+def analyze_image(uploaded_file):
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as tmp:
+        tmp.write(uploaded_file.read())
+        tmp_path = tmp.name
+
     try:
-        result = DeepFace.analyze(img_path=image_path, actions=['emotion', 'age', 'gender', 'race'], enforce_detection=False)
-        return result[0]
+        result = DeepFace.analyze(img_path=tmp_path, actions=['emotion'], enforce_detection=False)
+        emotion = result[0]['dominant_emotion']
+        return emotion.capitalize()
     except Exception as e:
-        print("Hata oluştu:", e)
-        return None
-
-
-if __name__ == "__main__":
-    image_path = "test.jpg"  
-    output = analyze_image(image_path)
-    
-    if output:
-        print("🎭 Duygu:", output["dominant_emotion"])
-       
+        return f"Hata: {str(e)}"

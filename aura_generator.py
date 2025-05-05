@@ -1,28 +1,17 @@
-import random
+from transformers import pipeline
+from diffusers import DiffusionPipeline
 
-def generate_advertisement(feeling):
-    if feeling == "mutlu":
-        ad_templates = [
-            "Huzurlu ve mutlu bir hayat için Yoga Aura ile her anınızı güzelleştirin! 🌟",
-            "Sizdeki mutluluğu keşfedin! Yoga Aura, hayatınıza huzur getiriyor. ✨",
-            "Hayatınızda daha fazla neşe! Yoga Aura ile mutluluğunuzu bir üst seviyeye taşıyın! 😊"
-        ]
-    elif feeling == "üzgün":
-        ad_templates = [
-            "Kendinizi yeniden keşfedin! Yoga Aura, ruhunuza dokunacak. 💫",
-            "Bir adım atın, huzurlu bir hayat sizi bekliyor. Yoga Aura ile yeniden doğun! 🌱",
-            "Hayat zorlayıcı olabilir, ancak Yoga Aura ile her şey daha kolay! 💪"
-        ]
-    elif feeling == "heyecanlı":
-        ad_templates = [
-            "Hedeflerinize ulaşmak hiç bu kadar kolay olmamıştı! Yoga Aura ile her anı daha anlamlı yaşayın! 🚀",
-            "Yükselmek için hazır mısınız? Yoga Aura, size güç ve enerji verecek! ⚡️",
-            "Efsane bir deneyim sizi bekliyor! Yoga Aura ile heyecan verici bir yolculuğa çıkın! 🌠"
-        ]
+generator = DiffusionPipeline.from_pretrained("stabilityai/stable-diffusion-2")
+
+def generate_image_for_sentiment(sentiment):
+    if sentiment == 'POSITIVE':
+        prompt = "A futuristic laptop with glowing green accents, symbolizing energy and positivity. The laptop is sleek, modern, and inspiring."
+    elif sentiment == 'NEGATIVE':
+        prompt = "A rugged laptop with sharp lines and red accents, symbolizing strength through challenges. The atmosphere is intense and focused."
+    elif sentiment == 'NEUTRAL':
+        prompt = "A minimalist laptop with soft yellow lighting, symbolizing balance and calm. The laptop is elegant and simple."
     else:
-        ad_templates = [
-            "Yoga Aura ile kendinizi keşfedin, her şey mümkün! 🌈",
-            "Hayatın tadını çıkarın, Yoga Aura ile her anınız değerli. ✨"
-        ]
-    
-    return random.choice(ad_templates)
+        prompt = "A laptop in a calm and neutral setting."
+
+    image = generator(prompt, num_return_sequences=1)
+    return image[0]['generated_image']

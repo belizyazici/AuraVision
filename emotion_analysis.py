@@ -1,15 +1,31 @@
-from transformers import pipeline
+from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
 
-emotion_model = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
+model_name = "savasy/bert-base-turkish-sentiment-cased"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForSequenceClassification.from_pretrained(model_name)
 
-def detect_emotion(text):
-    result = emotion_model(text)[0]
-    label = result['label']
-    score = round(result['score'], 2)
-    return {"duygu": label, "guven": score}
+sentiment_pipeline = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
 
+def analyze_sentiment_tr(text):
+    result = sentiment_pipeline(text)[0]
+    label = result['label'].upper()
+    return label
 
-if __name__ == "__main__":
-    metin = "I am feeling really happy and excited today!"
-    analiz = detect_emotion(metin)
-    print("🎯 Analiz sonucu:", analiz)
+def get_color_by_sentiment(sentiment):
+    if sentiment == 'POSITIVE':
+        return '#a3e635'  
+    elif sentiment == 'NEGATIVE':
+        return '#f43f5e'  
+    elif sentiment == 'NEUTRAL':
+        return '#facc15'  
+    else:
+        return '#d4d4d8'  
+
+def get_feedback_by_sentiment(sentiment):
+    feedback_dict = {
+        'POSITIVE': "Harika! Pozitif bir enerjiyle dolusun!",
+        'NEGATIVE': "Biraz içini dökmüşsün gibi, kendine zaman ayır.",
+        'NEUTRAL': "Oldukça dengeli bir ruh halindesin."
+    }
+    return feedback_dict.get(sentiment.upper(), "Duygu tanımlanamadı.")
+
