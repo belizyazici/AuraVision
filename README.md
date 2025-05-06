@@ -40,7 +40,7 @@ AuraVision/
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/AuraVision.git
+git clone https://github.com/belizyazici/AuraVision.git
 cd AuraVision
 ````
 
@@ -64,13 +64,9 @@ HUGGINGFACEHUB_API_TOKEN=your_token_here
 streamlit run app.py
 ```
 
-Harika! O zaman README dosyasına bir **Demo Video** bölümü ekleyebiliriz. Aşağıya örnek bir düzen yerleştiriyorum. Video'yu YouTube'a yüklediysen (veya başka bir platforma), sadece bağlantıyı değiştirsin yeterli.
-
----
-
 ## 📹 Demo Video
 
-[Video Link](https://youtu.be/PWLhnZMRNPg?si=ppQbrL8joParhrKC)
+* [Video Link](https://youtu.be/PWLhnZMRNPg?si=ppQbrL8joParhrKC)
 
 
 ## 🖼️ Project Images
