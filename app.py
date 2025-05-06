@@ -1,11 +1,8 @@
 import streamlit as st
-from emotion_analysis import analyze_sentiment_tr, get_feedback_by_sentiment, get_color_by_sentiment
-from dotenv import load_dotenv
-from aura_generator import generate_image_for_sentiment
+from emotion_analysis import analyze_sentiment_tr, get_feedback_by_sentiment, get_color_by_sentiment  # get_prompt_by_sentiment artık kullanılmıyor
+# from dotenv import load_dotenv
+# from aura_generator import generate_image_from_prompt
 import os
-
-load_dotenv()
-hf_token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 
 st.set_page_config(page_title="AuraVision", page_icon="✨", layout="centered")
 
@@ -21,8 +18,7 @@ if st.button("Auranı Göster"):
         sentiment = analyze_sentiment_tr(user_text)
         aura_color = get_color_by_sentiment(sentiment)
         feedback = get_feedback_by_sentiment(sentiment)
-        aura_image = generate_image_for_sentiment(sentiment)  
-
+        # prompt = get_prompt_by_sentiment(sentiment)  # Kullanılmıyor
 
         st.markdown(f"### Tespit Edilen Duygu: **{sentiment.capitalize()}**")
         st.markdown(
@@ -30,8 +26,41 @@ if st.button("Auranı Göster"):
             unsafe_allow_html=True
         )
         st.markdown(f"#### {feedback}")
-        st.image(aura_image, caption=f"Aura Color: {sentiment}")
+
+        # Hugging Face API ile görsel oluşturma kısmı yorumlandı
+        # load_dotenv()
+        # hf_token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
+        # with st.spinner("Senin için özel bir görsel hazırlanıyor..."):
+        #     image_bytes = generate_image_from_prompt(prompt, hf_token)
+        #     if image_bytes:
+        #         try:
+        #             image = Image.open(io.BytesIO(image_bytes))
+        #             image_path = f"{sentiment.lower()}.png"
+        #             st.image(image_path, caption="Senin Auranla Uyumlu Lenovo Laptop")
+        #         except UnidentifiedImageError:
+        #             st.error("Görsel oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.")
+        #     else:
+        #         st.error("Görsel oluşturulamadı. API'den hata mesajı geldi.")
+
+        image_dir = ""
+        image_name_base = sentiment.lower()
+        possible_extensions = [".png", ".jpg", ".jpeg"]
+        image_path = None
+
+        for ext in possible_extensions:
+            path = os.path.join(image_dir, image_name_base + ext)
+            if os.path.exists(path):
+                image_path = path
+                break
+
+
+        if image_path:
+            st.image(image_path, caption="Senin Auranla Uyumlu Lenovo Laptop")
+        else:
+            st.warning("Uygun görsel bulunamadı. Lütfen images/ klasörünü kontrol edin.")
     else:
         st.warning("Lütfen metin giriniz.")
+
+
 
 

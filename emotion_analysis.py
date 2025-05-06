@@ -29,3 +29,11 @@ def get_feedback_by_sentiment(sentiment):
     }
     return feedback_dict.get(sentiment.upper(), "Duygu tanımlanamadı.")
 
+def get_prompt_by_sentiment(sentiment):
+    prompts = {
+        'POSITIVE': "A futuristic Lenovo laptop placed in a vibrant green forest, glowing softly, with an energetic and fresh atmosphere. Product photography, high resolution.",
+        'NEGATIVE': "A futuristic Lenovo laptop placed in a vibrant green forest, glowing softly, with an energetic and fresh atmosphere. Product photography, high resolution.",
+        'NEUTRAL': "A Lenovo laptop on a minimalistic yellow-gray desk, with soft lighting and a clean background. Calm, modern product photography."
+    }
+    return prompts.get(sentiment.upper(), "A Lenovo laptop on a desk.")
+

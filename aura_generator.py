@@ -1,6 +1,10 @@
 from transformers import pipeline
 from diffusers import DiffusionPipeline
+import requests
+from PIL import Image, UnidentifiedImageError
+import io
 
+"""
 generator = DiffusionPipeline.from_pretrained("stabilityai/stable-diffusion-2")
 
 def generate_image_for_sentiment(sentiment):
@@ -15,3 +19,28 @@ def generate_image_for_sentiment(sentiment):
 
     image = generator(prompt, num_return_sequences=1)
     return image[0]['generated_image']
+
+def generate_image_from_prompt(prompt, hf_token):
+    headers = {
+        "Authorization": f"Bearer {hf_token}"
+    }
+
+    API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2"
+    payload = {
+        "inputs": prompt,
+    }
+
+    response = requests.post(API_URL, headers=headers, json=payload)
+
+    # Başarısız istek durumunda hata mesajı döndür
+    if response.status_code != 200:
+        print("Hata:", response.status_code, response.text)
+        return None
+
+    # JSON dönüyorsa hata vardır
+    content_type = response.headers.get("Content-Type", "")
+    if "application/json" in content_type:
+        print("Sunucudan JSON hata mesajı geldi:", response.json())
+        return None
+
+    return response.content"""
