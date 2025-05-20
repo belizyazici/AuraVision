@@ -1,0 +1,10 @@
+streamlit
+transformers
+torch
+Pillow
+python-dotenv
+scipy.io.wavfile
+diffusers
+PIL 
+deepface
+tempfile
