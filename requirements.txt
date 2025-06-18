@@ -1,10 +1,7 @@
 streamlit
 transformers
 torch
-diffusers
 Pillow
 opencv-python
-deepface
-sounddevice
 scipy
 python-dotenv
