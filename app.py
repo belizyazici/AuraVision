@@ -42,7 +42,7 @@ if st.button("Auranı Göster"):
         #     else:
         #         st.error("Görsel oluşturulamadı. API'den hata mesajı geldi.")
 
-        image_dir = ""
+        image_dir = "images"
         image_name_base = sentiment.lower()
         possible_extensions = [".png", ".jpg", ".jpeg"]
         image_path = None
